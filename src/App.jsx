@@ -3,7 +3,7 @@ import CharacterCard from './components/CharacterCard.jsx';
 import './App.css';
 
 // Create the 24 characters (1.jpg to 24.jpg in public/characters/)
-const CHARACTERS = Array.from({ length: 24 }, (_, i) => ({
+const CHARACTERS = Array.from({ length: 16 }, (_, i) => ({
   id: i + 1,
   name: `Character ${i + 1}`,
   image: `/characters/${i + 1}.jpg`,
