@@ -1,0 +1,61 @@
+
+# Automatically deploy the Vite app to GitHub Pages
+name: Deploy React App
+
+# Run whenever code is pushed to main
+on:
+  push:
+    branches: [main]
+
+  # Allow manual deployment from GitHub Actions
+  workflow_dispatch:
+
+# Give GitHub permission to deploy the website
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Prevent multiple deployments from running simultaneously
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Install project dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build the Vite project
+      - name: Build project
+        run: npm run build
+
+      # Configure GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # Upload the generated dist folder
+      - name: Upload build
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      # Publish the website
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
