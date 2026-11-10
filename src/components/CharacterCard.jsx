@@ -19,11 +19,15 @@ function CharacterCard({ character, isEliminated, isSelected, onClick, disabled 
 
       <div className="card-img-box">
         {!imgError ? (
-          <img
-            src={character.image}
-            alt={character.name}
-            onError={() => setImgError(true)}
-          />
+                    <img
+                    src={
+                      character.image.startsWith('/')
+                        ? `${import.meta.env.BASE_URL}${character.image.replace(/^\//, '')}`
+                        : character.image
+                    }
+                    alt={character.name}
+                    onError={() => setImgError(true)}
+                  />
         ) : (
           <div className="placeholder">{character.id}</div>
         )}
